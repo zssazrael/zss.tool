@@ -155,7 +155,12 @@ public final class IOTool
 
     public static BufferedWriter newWriter(final File file, final Charset charset)
     {
-        return new BufferedWriter(new OutputStreamWriter(newFileOutputStream(file), charset));
+        return newWriter(newFileOutputStream(file), charset);
+    }
+
+    public static BufferedWriter newWriter(final OutputStream stream, final Charset charset)
+    {
+        return new BufferedWriter(new OutputStreamWriter(stream, charset));
     }
 
     /**
