@@ -1,8 +1,10 @@
 package zss.tool;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
-@Version("2017-01-20")
+@Version("2017.03.29")
 public class DateTool
 {
     public static Calendar truncateSecond(final Calendar calendar)
@@ -82,6 +84,32 @@ public class DateTool
         return truncateYear(Calendar.getInstance());
     }
 
+    public static Calendar setMonthFirst(final Calendar calendar) {
+        return truncateMonth(calendar);
+    }
+
+    public static Calendar setMonthLast(final Calendar calendar) {
+        truncateMonth(calendar);
+        calendar.add(Calendar.MONTH, 1);
+        calendar.getTimeInMillis();
+        calendar.add(Calendar.MILLISECOND, -1);
+        calendar.getTimeInMillis();
+        return calendar;
+    }
+
+    public static Calendar setYearFirst(final Calendar calendar) {
+        return truncateYear(calendar);
+    }
+
+    public static Calendar setYearLast(final Calendar calendar) {
+        truncateYear(calendar);
+        calendar.add(Calendar.YEAR, 1);
+        calendar.getTimeInMillis();
+        calendar.add(Calendar.MILLISECOND, -1);
+        calendar.getTimeInMillis();
+        return calendar;
+    }
+
     public static Calendar setWeekFirst(final Calendar calendar)
     {
         truncateDay(calendar);
@@ -100,5 +128,19 @@ public class DateTool
         calendar.add(Calendar.MILLISECOND, -1);
         calendar.getTimeInMillis();
         return calendar;
+    }
+
+    public static String toISO8601(final Calendar calendar) {
+        if (calendar == null) {
+            return "";
+        }
+        return toISO8601(calendar.getTime());
+    }
+
+    public static String toISO8601(final Date date) {
+        if (date == null) {
+            return "";
+        }
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").format(date);
     }
 }
