@@ -2,7 +2,7 @@ package zss.tool;
 
 import java.util.TreeMap;
 
-@Version("2017.03.29")
+@Version("2017.05.22")
 public class StringObjectMap extends TreeMap<String, Object> {
     private static final long serialVersionUID = 20150424223016L;
 
@@ -64,6 +64,15 @@ public class StringObjectMap extends TreeMap<String, Object> {
             put(key, list);
         }
         return list;
+    }
+
+    public StringObjectMap setMap(final String key) {
+        StringObjectMap map = getMap(key);
+        if (map == null) {
+            map = new StringObjectMap();
+            put(key, map);
+        }
+        return map;
     }
 
     public StringObjectMap getMap(final String key) {

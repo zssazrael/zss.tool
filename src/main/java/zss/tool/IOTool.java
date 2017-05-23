@@ -21,10 +21,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2016-03-17")
+@Version("2017.05.22")
 public final class IOTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(IOTool.class);
@@ -161,6 +162,27 @@ public final class IOTool
     public static BufferedWriter newWriter(final OutputStream stream, final Charset charset)
     {
         return new BufferedWriter(new OutputStreamWriter(stream, charset));
+    }
+
+    /**
+     * 设置扩展名
+     * 
+     * @param name
+     * @param extension 扩展名，不包含 .
+     * @return
+     */
+    public static String setExtension(final String name, final String extension) {
+        if (StringUtils.isEmpty(extension)) {
+            return StringUtils.defaultString(name);
+        }
+        if (StringUtils.isEmpty(name)) {
+            return ".".concat(extension);
+        }
+        final int index = name.lastIndexOf('.');
+        if (index < 0) {
+            return name.concat(".").concat(extension);
+        }
+        return name.substring(0, index).concat(".").concat(extension);
     }
 
     /**
