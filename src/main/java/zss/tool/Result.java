@@ -6,6 +6,11 @@ public class Result extends StringObjectMap {
     public static final String RESULT = "result";
     public static final String MESSAGE = "message";
 
+    public Result() {
+        setResult(false);
+        setMessage("");
+    }
+
     public static Result newResult(final boolean result, final String message) {
         final Result value = new Result();
         value.setResult(result);
