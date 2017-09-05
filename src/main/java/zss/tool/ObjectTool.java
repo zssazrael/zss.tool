@@ -12,13 +12,20 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2013-05-05")
+@Version("2017.09.06")
 public final class ObjectTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjectTool.class.getName());
 
     private ObjectTool()
     {
+    }
+
+    public static <T> T defaultIfNull(final T value, final T defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
     }
 
     public static Object deserialize(final String path)
