@@ -1,6 +1,6 @@
 package zss.tool;
 
-@Version("2017.09.03")
+@Version("2017.09.10")
 public class Result extends StringObjectMap {
     private static final long serialVersionUID = 20170903112936L;
     public static final String RESULT = "result";
@@ -28,15 +28,17 @@ public class Result extends StringObjectMap {
         return getString(MESSAGE, "");
     }
 
-    public void setMessage(final String message) {
+    public Result setMessage(final String message) {
         setString(MESSAGE, message);
+        return this;
     }
 
     public boolean getResult() {
         return getBoolean(RESULT, false);
     }
 
-    public void setResult(final boolean result) {
+    public Result setResult(final boolean result) {
         setBoolean(RESULT, result);
+        return this;
     }
 }
