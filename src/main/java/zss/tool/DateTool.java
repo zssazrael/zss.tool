@@ -1,12 +1,57 @@
 package zss.tool;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-@Version("2017.03.29")
-public class DateTool
-{
+import org.apache.commons.lang.StringUtils;
+
+@Version("2017.12.24")
+public class DateTool {
+    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String ISO_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String ISO_DATETIME_NO_T_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static Date parse(final String pattern, final String source, final Date defaultValue) {
+        final Date value = parse(pattern, source);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
+    }
+
+    public static Calendar parse(final String pattern, final String source, final Calendar defaultValue) {
+        final Date value = parse(pattern, source);
+        if (value == null) {
+            return defaultValue;
+        }
+        return newCalendar(value);
+    }
+
+    public static Calendar newCalendar(final Date date) {
+        if (date == null) {
+            return null;
+        }
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
+
+    public static Date parse(final String pattern, final String source) {
+        if (StringUtils.isEmpty(pattern)) {
+            return null;
+        }
+        if (StringUtils.isEmpty(source)) {
+            return null;
+        }
+        try {
+            return new SimpleDateFormat(pattern).parse(source);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
     public static Calendar truncateSecond(final Calendar calendar)
     {
         calendar.set(Calendar.MILLISECOND, 0);
