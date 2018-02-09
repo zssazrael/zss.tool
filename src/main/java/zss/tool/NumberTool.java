@@ -2,7 +2,7 @@ package zss.tool;
 
 import java.math.BigDecimal;
 
-@Version("2018.02.03")
+@Version("2018.02.09")
 public class NumberTool {
     public static Integer defaultInteger(final Integer value, final Integer defaultValue) {
         if (value == null) {
@@ -39,5 +39,17 @@ public class NumberTool {
         value1 = defaultBigDecimal(value1);
         value2 = defaultBigDecimal(value2);
         return value1.compareTo(value2) < 0 ? value1 : value2;
+    }
+
+    public static boolean greaterThan(BigDecimal value1, BigDecimal value2) {
+        value1 = defaultBigDecimal(value1);
+        value2 = defaultBigDecimal(value2);
+        return value1.compareTo(value2) > 0;
+    }
+
+    public static boolean lessThan(BigDecimal value1, BigDecimal value2) {
+        value1 = defaultBigDecimal(value1);
+        value2 = defaultBigDecimal(value2);
+        return value1.compareTo(value2) < 0;
     }
 }
