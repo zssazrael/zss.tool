@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2017.05.22")
+@Version("2018.03.23")
 public final class IOTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(IOTool.class);
@@ -162,6 +162,14 @@ public final class IOTool
     public static BufferedWriter newWriter(final OutputStream stream, final Charset charset)
     {
         return new BufferedWriter(new OutputStreamWriter(stream, charset));
+    }
+
+    public static BufferedReader newReader(final File file, final Charset charset) {
+        return new BufferedReader(new InputStreamReader(newFileInputStream(file), charset));
+    }
+
+    public static BufferedReader newReader(final InputStream stream, final Charset charset) {
+        return new BufferedReader(new InputStreamReader(stream, charset));
     }
 
     /**
