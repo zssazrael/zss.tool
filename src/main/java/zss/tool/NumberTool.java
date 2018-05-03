@@ -2,7 +2,9 @@ package zss.tool;
 
 import java.math.BigDecimal;
 
-@Version("2018.02.09")
+import org.apache.commons.lang.StringUtils;
+
+@Version("2018.05.03")
 public class NumberTool {
     public static Integer defaultInteger(final Integer value, final Integer defaultValue) {
         if (value == null) {
@@ -51,5 +53,20 @@ public class NumberTool {
         value1 = defaultBigDecimal(value1);
         value2 = defaultBigDecimal(value2);
         return value1.compareTo(value2) < 0;
+    }
+
+    public static BigDecimal toBigDecimal(final String value) {
+        return toBigDecimal(value, BigDecimal.ZERO);
+    }
+
+    public static BigDecimal toBigDecimal(final String value, final BigDecimal defaultValue) {
+        if (StringUtils.isEmpty(value)) {
+            return defaultValue;
+        }
+        try {
+            return new BigDecimal(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 }
