@@ -1,10 +1,9 @@
 package zss.tool;
 
-import static org.apache.commons.io.IOUtils.closeQuietly;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,7 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2018.03.23")
+@Version("2018.05.17")
 public final class IOTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(IOTool.class);
@@ -48,24 +47,17 @@ public final class IOTool
     {
     }
 
-    public static void copy(final File input, final File output)
-    {
+    public static final void copy(final File input, final File output) {
         final InputStream inputStream = newFileInputStream(input);
-        try
-        {
+        try {
             final OutputStream outputStream = newFileOutputStream(output);
-            try
-            {
+            try {
                 copy(inputStream, outputStream);
+            } finally {
+                close(outputStream);
             }
-            finally
-            {
-                closeQuietly(outputStream);
-            }
-        }
-        finally
-        {
-            closeQuietly(inputStream);
+        } finally {
+            close(inputStream);
         }
     }
 
@@ -220,15 +212,11 @@ public final class IOTool
         return IOTool.readAllLineAndClose(newFileInputStream(file), charset);
     }
 
-    public static StringList readAllLineAndClose(final InputStream stream, final Charset charset)
-    {
-        try
-        {
+    public static final StringList readAllLineAndClose(final InputStream stream, final Charset charset) {
+        try {
             return readAllLine(stream, charset);
-        }
-        finally
-        {
-            closeQuietly(stream);
+        } finally {
+            close(stream);
         }
     }
 
@@ -257,15 +245,11 @@ public final class IOTool
         return readAllTextAndClose(newFileInputStream(file), charset);
     }
 
-    public static StringBuilder readAllTextAndClose(final InputStream stream, final Charset charset)
-    {
-        try
-        {
+    public static final StringBuilder readAllTextAndClose(final InputStream stream, final Charset charset) {
+        try {
             return readAllText(stream, charset);
-        }
-        finally
-        {
-            closeQuietly(stream);
+        } finally {
+            close(stream);
         }
     }
 
@@ -295,15 +279,11 @@ public final class IOTool
         return readAllByteAndClose(newFileInputStream(file));
     }
 
-    public static byte[] readAllByteAndClose(final InputStream stream)
-    {
-        try
-        {
+    public static final byte[] readAllByteAndClose(final InputStream stream) {
+        try {
             return readAllByte(stream);
-        }
-        finally
-        {
-            closeQuietly(stream);
+        } finally {
+            close(stream);
         }
     }
 
@@ -372,21 +352,24 @@ public final class IOTool
         readFully(input, buffer, 0, buffer.length);
     }
 
-    public static void write(final File file, final String value, final Charset charset)
-    {
-        final BufferedWriter writer = newWriter(file, charset);
-        try
-        {
-            writer.write(value);
+    public static final void close(final Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (final IOException ioe) {
+            }
         }
-        catch (IOException e)
-        {
+    }
+
+    public static final void write(final File file, final String value, final Charset charset) {
+        final BufferedWriter writer = newWriter(file, charset);
+        try {
+            writer.write(value);
+        } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             throw new LoggedException();
-        }
-        finally
-        {
-            closeQuietly(writer);
+        } finally {
+            close(writer);
         }
     }
 }

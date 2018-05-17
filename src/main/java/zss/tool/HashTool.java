@@ -6,11 +6,10 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2013-02-04")
+@Version("2018.05.17")
 public class HashTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(HashTool.class);
@@ -21,16 +20,12 @@ public class HashTool
         return HexTool.transform(digest.digest(data));
     }
 
-    public static String md5(final File file)
-    {
+    public static final String md5(final File file) {
         final InputStream stream = IOTool.newFileInputStream(file);
-        try
-        {
+        try {
             return md5(stream);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
+        } finally {
+            IOTool.close(stream);
         }
     }
 

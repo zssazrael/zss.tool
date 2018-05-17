@@ -8,11 +8,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.URL;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2017.09.06")
+@Version("2018.05.17")
 public final class ObjectTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjectTool.class.getName());
@@ -28,48 +27,34 @@ public final class ObjectTool
         return value;
     }
 
-    public static Object deserialize(final String path)
-    {
+    public static final Object deserialize(final String path) {
         URL url = Thread.currentThread().getContextClassLoader().getResource(path);
         InputStream stream;
-        try
-        {
+        try {
             stream = url.openStream();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             LOGGER.error("Invoke [deserialize] failed!", e);
             throw new LoggedException("Invoke [deserialize] failed!");
         }
-        try
-        {
+        try {
             return deserialize(stream);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
+        } finally {
+            IOTool.close(stream);
         }
     }
 
-    public static Object deserialize(final File file)
-    {
+    public static final Object deserialize(final File file) {
         FileInputStream stream;
-        try
-        {
+        try {
             stream = new FileInputStream(file);
-        }
-        catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             LOGGER.error("Invoke [deserialize] failed!", e);
             throw new LoggedException("Invoke [deserialize] failed!");
         }
-        try
-        {
+        try {
             return deserialize(stream);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
+        } finally {
+            IOTool.close(stream);
         }
     }
 

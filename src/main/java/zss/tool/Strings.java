@@ -4,12 +4,11 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-@Version("2018.01.09")
+@Version("2018.05.17")
 public class Strings {
     private static final Map<Class<?>, Strings> INSTANCES = new HashMap<>();
     private final Map<String, String> strings = new HashMap<>();
@@ -27,7 +26,7 @@ public class Strings {
         try {
             load(stream);
         } finally {
-            IOUtils.closeQuietly(stream);
+            IOTool.close(stream);
         }
     }
 

@@ -28,7 +28,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +36,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-@Version("2017.10.09")
+@Version("2018.05.17")
 public final class XMLTool {
     private static final Logger LOGGER = LoggerFactory.getLogger(XMLTool.class);
 
@@ -101,7 +100,7 @@ public final class XMLTool {
         return elements;
     }
 
-    public static Document newDocument(final String path) {
+    public static final Document newDocument(final String path) {
         URL url = Thread.currentThread().getContextClassLoader().getResource(path);
         InputStream stream;
         try {
@@ -113,11 +112,11 @@ public final class XMLTool {
         try {
             return newDocument(stream);
         } finally {
-            IOUtils.closeQuietly(stream);
+            IOTool.close(stream);
         }
     }
 
-    public static Document newDocument(final File file) {
+    public static final Document newDocument(final File file) {
         InputStream stream;
         try {
             stream = new FileInputStream(file);
@@ -128,7 +127,7 @@ public final class XMLTool {
         try {
             return newDocument(stream);
         } finally {
-            IOUtils.closeQuietly(stream);
+            IOTool.close(stream);
         }
     }
 
@@ -229,12 +228,12 @@ public final class XMLTool {
         transform(new DOMSource(node), new StreamResult(writer));
     }
 
-    public static void writeTo(final Node node, final File file) {
+    public static final void writeTo(final Node node, final File file) {
         final FileOutputStream stream = IOTool.newFileOutputStream(file);
         try {
             transform(new DOMSource(node), new StreamResult(stream));
         } finally {
-            IOUtils.closeQuietly(stream);
+            IOTool.close(stream);
         }
     }
 

@@ -1,6 +1,7 @@
 package zss.tool;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,12 +13,11 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2015-02-08")
-public class LineIterator implements Iterator<String>
+@Version("2018.05.17")
+public class LineIterator implements Iterator<String>, Closeable
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(LineIterator.class);
 
@@ -103,8 +103,8 @@ public class LineIterator implements Iterator<String>
     {
     }
 
-    public void close()
-    {
-        IOUtils.closeQuietly(reader);
+    @Override
+    public void close() {
+        IOTool.close(reader);
     }
 }

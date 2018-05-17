@@ -7,25 +7,20 @@ import java.util.LinkedList;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2015-01-05")
+@Version("2018.05.17")
 public class JARTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(JARTool.class);
 
-    public static LinkedList<JarEntry> entries(final File file)
-    {
+    public static final LinkedList<JarEntry> entries(final File file) {
         final InputStream stream = IOTool.newFileInputStream(file);
-        try
-        {
+        try {
             return entries(stream);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
+        } finally {
+            IOTool.close(stream);
         }
     }
 

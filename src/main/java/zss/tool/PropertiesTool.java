@@ -6,25 +6,20 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Properties;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2016-01-05")
+@Version("2018.05.17")
 public class PropertiesTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesTool.class);
 
-    public static Properties newProperties(final String resourceName)
-    {
+    public static final Properties newProperties(final String resourceName) {
         InputStream stream = ResourceTool.openStream(resourceName);
-        try
-        {
+        try {
             return newProperties(stream);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
+        } finally {
+            IOTool.close(stream);
         }
     }
 
@@ -33,16 +28,12 @@ public class PropertiesTool
         return newProperties(path.toFile());
     }
 
-    public static Properties newProperties(final File file)
-    {
+    public static final Properties newProperties(final File file) {
         InputStream stream = IOTool.newFileInputStream(file);
-        try
-        {
+        try {
             return newProperties(stream);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
+        } finally {
+            IOTool.close(stream);
         }
     }
 
