@@ -7,11 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2013-02-23")
+@Version("2018.05.17")
 public class PropertiesWrapper
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesWrapper.class);
@@ -107,51 +106,35 @@ public class PropertiesWrapper
         properties = new Properties();
     }
 
-    public PropertiesWrapper load(final String path)
-    {
+    public PropertiesWrapper load(final String path) {
         InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-        if (stream == null)
-        {
+        if (stream == null) {
             return this;
         }
-        try
-        {
+        try {
             properties.load(stream);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             LOGGER.warn(e.getMessage(), e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
+        } finally {
+            IOTool.close(stream);
         }
         return this;
     }
 
-    public PropertiesWrapper load(final File file)
-    {
+    public PropertiesWrapper load(final File file) {
         InputStream stream;
-        try
-        {
+        try {
             stream = new FileInputStream(file);
-        }
-        catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             LOGGER.warn(e.getMessage(), e);
             return this;
         }
-        try
-        {
+        try {
             properties.load(stream);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             LOGGER.warn(e.getMessage(), e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(stream);
+        } finally {
+            IOTool.close(stream);
         }
         return this;
     }

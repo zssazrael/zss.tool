@@ -9,12 +9,11 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2013-11-30")
+@Version("2018.05.17")
 public class LocalProperties
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(LocalProperties.class);
@@ -138,43 +137,30 @@ public class LocalProperties
         loadProperties(defaultProperties, resource + ".properties");
     }
 
-    private void loadProperties(final Properties properties, final String resource)
-    {
+    private void loadProperties(final Properties properties, final String resource) {
         Enumeration<URL> urls;
-        try
-        {
+        try {
             urls = Thread.currentThread().getContextClassLoader().getResources(resource);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             LOGGER.warn(e.getMessage(), e);
             return;
         }
-        while (urls.hasMoreElements())
-        {
+        while (urls.hasMoreElements()) {
             URL url = urls.nextElement();
             InputStream stream;
-            try
-            {
+            try {
                 stream = url.openStream();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 LOGGER.warn(e.getMessage(), e);
                 continue;
             }
-            try
-            {
+            try {
                 properties.load(stream);
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 LOGGER.warn(e.getMessage(), e);
                 continue;
-            }
-            finally
-            {
-                IOUtils.closeQuietly(stream);
+            } finally {
+                IOTool.close(stream);
             }
         }
     }

@@ -7,7 +7,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 
-@Version("2017.12.24")
+@Version("2018.05.03")
 public class DateTool {
     public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
     public static final String ISO_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
@@ -129,6 +129,19 @@ public class DateTool {
         return truncateYear(Calendar.getInstance());
     }
 
+    public static Calendar setDayFirst(final Calendar calendar) {
+        return truncateDay(calendar);
+    }
+
+    public static Calendar setDayLast(final Calendar calendar) {
+        truncateDay(calendar);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar.getTimeInMillis();
+        calendar.add(Calendar.MILLISECOND, -1);
+        calendar.getTimeInMillis();
+        return calendar;
+    }
+
     public static Calendar setMonthFirst(final Calendar calendar) {
         return truncateMonth(calendar);
     }
@@ -187,5 +200,30 @@ public class DateTool {
             return "";
         }
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").format(date);
+    }
+
+    public static String format(final String pattern, final Date date) {
+        return format(pattern, date, "");
+    }
+
+    public static String format(final String pattern, final Date date, final String defaultValue) {
+        if (date == null) {
+            return defaultValue;
+        }
+        if (StringUtils.isEmpty(pattern)) {
+            return defaultValue;
+        }
+        return new SimpleDateFormat(pattern).format(date);
+    }
+
+    public static String format(final String pattern, final Calendar calendar) {
+        return format(pattern, calendar, "");
+    }
+
+    public static String format(final String pattern, final Calendar calendar, final String defaultValue) {
+        if (calendar == null) {
+            return defaultValue;
+        }
+        return format(pattern, calendar.getTime(), defaultValue);
     }
 }
