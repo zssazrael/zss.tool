@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2018.05.17")
+@Version("2018.09.21")
 public class HashTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(HashTool.class);
@@ -60,5 +60,8 @@ public class HashTool
             LOGGER.error(e.getMessage(), e);
             throw new LoggedException();
         }
+    }
+
+    private HashTool() {
     }
 }

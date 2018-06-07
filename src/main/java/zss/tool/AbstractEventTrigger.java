@@ -1,15 +1,12 @@
-/**
- * Modified Time: 2011-11-06 12:34:35
- * Mender: ZssAzrael
- */
 package zss.tool;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Version("2018.09.18")
 public abstract class AbstractEventTrigger<T>
 {
-    protected final List<T> listeners = new LinkedList<T>();
+    protected final List<T> listeners = new LinkedList<>();
 
     public List<T> getListeners()
     {

@@ -7,7 +7,7 @@ import java.lang.reflect.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2015-04-24")
+@Version("2018.09.21")
 public class ReflectTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReflectTool.class);
@@ -17,16 +17,9 @@ public class ReflectTool
         try
         {
             return method.invoke(obj, args);
-        }
-        catch (IllegalAccessException e)
-        {
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new LoggedException(ReflectTool.class);
-        }
-        catch (IllegalArgumentException e)
-        {
-            LOGGER.error(e.getMessage(), e);
-            throw new LoggedException(ReflectTool.class);
+            throw new LoggedException();
         }
         catch (InvocationTargetException e)
         {
@@ -48,16 +41,9 @@ public class ReflectTool
         try
         {
             return type.getMethod(name, parameterTypes);
-        }
-        catch (NoSuchMethodException e)
-        {
+        } catch (NoSuchMethodException | SecurityException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new LoggedException(ReflectTool.class);
-        }
-        catch (SecurityException e)
-        {
-            LOGGER.error(e.getMessage(), e);
-            throw new LoggedException(ReflectTool.class);
+            throw new LoggedException();
         }
     }
 
@@ -92,16 +78,9 @@ public class ReflectTool
         try
         {
             return type.newInstance();
-        }
-        catch (InstantiationException e)
-        {
+        } catch (InstantiationException | IllegalAccessException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new LoggedException(ReflectTool.class);
-        }
-        catch (IllegalAccessException e)
-        {
-            LOGGER.error(e.getMessage(), e);
-            throw new LoggedException(ReflectTool.class);
+            throw new LoggedException();
         }
     }
 
@@ -128,5 +107,8 @@ public class ReflectTool
             return type.cast(value);
         }
         return null;
+    }
+
+    private ReflectTool() {
     }
 }

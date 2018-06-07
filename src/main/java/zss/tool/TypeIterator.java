@@ -1,8 +1,9 @@
 package zss.tool;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-@Version("2017.09.06")
+@Version("2018.09.18")
 public class TypeIterator<T> implements Iterator<T>, Iterable<T> {
     private static final NullIterator NULL_ITERATOR = new NullIterator();
 
@@ -44,15 +45,13 @@ public class TypeIterator<T> implements Iterator<T>, Iterable<T> {
     }
 
     @Override
-    public T next()
-    {
-        if (hasNext())
-        {
+    public T next() {
+        if (hasNext()) {
             final T value = this.value;
             this.value = null;
             return value;
         }
-        return null;
+        throw new NoSuchElementException();
     }
 
     @Override
@@ -67,6 +66,7 @@ public class TypeIterator<T> implements Iterator<T>, Iterable<T> {
         return this;
     }
 
+    @Version("2018.09.18")
     private static class NullIterator implements Iterator<Object> {
         @Override
         public boolean hasNext() {
@@ -75,7 +75,7 @@ public class TypeIterator<T> implements Iterator<T>, Iterable<T> {
 
         @Override
         public Object next() {
-            return null;
+            throw new NoSuchElementException();
         }
 
         @Override

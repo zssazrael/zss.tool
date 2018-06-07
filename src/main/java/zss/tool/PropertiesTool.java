@@ -9,7 +9,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2018.05.17")
+@Version("2018.09.21")
 public class PropertiesTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesTool.class);
@@ -50,6 +50,9 @@ public class PropertiesTool
             throw new LoggedException(PropertiesTool.class);
         }
         return properties;
+    }
+
+    private PropertiesTool() {
     }
 }
 

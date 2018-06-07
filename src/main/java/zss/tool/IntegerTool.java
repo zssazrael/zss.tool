@@ -1,11 +1,8 @@
-/**
- * Modified Time: 2011-11-13 22:46:46
- * Mender: ZssAzrael
- */
 package zss.tool;
 
 import java.io.InputStream;
 
+@Version("2018.09.21")
 public class IntegerTool
 {
     public static void write(final byte[] bytes, final int value)
@@ -26,8 +23,12 @@ public class IntegerTool
         return (byte0 << 24) + ((byte1 & 0xFF) << 16) + ((byte2 & 0xFF) << 8) + ((byte3 & 0xFF));
     }
 
-    public static int read(final InputStream stream)
-    {
-        return 0;
+    public static int read(final InputStream stream) {
+        final byte[] data = new byte[4];
+        IOTool.readFully(stream, data);
+        return read(data);
+    }
+
+    private IntegerTool() {
     }
 }

@@ -2,10 +2,17 @@ package zss.tool;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-@Version("2018.05.03")
+@Version("2018.09.21")
 public class NumberTool {
+    public static Integer defaultInteger(final Integer value, final int defaultValue) {
+        if (value == null) {
+            return Integer.valueOf(defaultValue);
+        }
+        return value;
+    }
+
     public static Integer defaultInteger(final Integer value, final Integer defaultValue) {
         if (value == null) {
             return defaultValue;
@@ -16,6 +23,27 @@ public class NumberTool {
     public static Integer defaultInteger(final Integer value) {
         if (value == null) {
             return Integer.valueOf(0);
+        }
+        return value;
+    }
+
+    public static Long defaultLong(final Long value, final long defaultValue) {
+        if (value == null) {
+            return Long.valueOf(defaultValue);
+        }
+        return value;
+    }
+
+    public static Long defaultLong(final Long value, final Long defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
+    }
+
+    public static Long defaultLong(final Long value) {
+        if (value == null) {
+            return Long.valueOf(0L);
         }
         return value;
     }
@@ -68,5 +96,8 @@ public class NumberTool {
         } catch (NumberFormatException e) {
             return defaultValue;
         }
+    }
+
+    private NumberTool() {
     }
 }

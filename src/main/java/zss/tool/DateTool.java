@@ -5,13 +5,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-@Version("2018.05.03")
+@Version("2018.09.18")
 public class DateTool {
     public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
     public static final String ISO_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
     public static final String ISO_DATETIME_NO_T_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static final long MILLISECOND = 1L;
+    public static final long SECOND = MILLISECOND * 1000L;
+    public static final long MINUTE = SECOND * 60L;
+    public static final long HOUR = MINUTE * 60L;
+    public static final long DAY = HOUR * 24L;
+
+    private DateTool() {
+    }
 
     public static Date parse(final String pattern, final String source, final Date defaultValue) {
         final Date value = parse(pattern, source);
@@ -52,80 +61,68 @@ public class DateTool {
         }
     }
 
-    public static Calendar truncateSecond(final Calendar calendar)
-    {
+    public static Calendar truncateSecond(final Calendar calendar) {
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.getTimeInMillis();
         return calendar;
     }
 
-    public static Calendar truncateSecond()
-    {
+    public static Calendar truncateSecond() {
         return truncateSecond(Calendar.getInstance());
     }
 
-    public static Calendar truncateMinute(final Calendar calendar)
-    {
+    public static Calendar truncateMinute(final Calendar calendar) {
         truncateSecond(calendar);
         calendar.set(Calendar.SECOND, 0);
         calendar.getTimeInMillis();
         return calendar;
     }
 
-    public static Calendar truncateMinute()
-    {
+    public static Calendar truncateMinute() {
         return truncateMinute(Calendar.getInstance());
     }
 
-    public static Calendar truncateHour(final Calendar calendar)
-    {
+    public static Calendar truncateHour(final Calendar calendar) {
         truncateMinute(calendar);
         calendar.set(Calendar.MINUTE, 0);
         calendar.getTimeInMillis();
         return calendar;
     }
 
-    public static Calendar truncateHour()
-    {
+    public static Calendar truncateHour() {
         return truncateHour(Calendar.getInstance());
     }
 
-    public static Calendar truncateDay(final Calendar calendar)
-    {
+    public static Calendar truncateDay(final Calendar calendar) {
         truncateHour(calendar);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.getTimeInMillis();
         return calendar;
     }
 
-    public static Calendar truncateDay()
-    {
+    public static Calendar truncateDay() {
         return truncateDay(Calendar.getInstance());
     }
 
-    public static Calendar truncateMonth(final Calendar calendar)
-    {
+    public static Calendar truncateMonth(final Calendar calendar) {
         truncateDay(calendar);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.getTimeInMillis();
         return calendar;
     }
 
-    public static Calendar truncateMonth()
-    {
+    public static Calendar truncateMonth() {
         return truncateMonth(Calendar.getInstance());
     }
 
-    public static Calendar truncateYear(final Calendar calendar)
-    {
+    public static Calendar truncateYear(final Calendar calendar) {
         truncateMonth(calendar);
         calendar.set(Calendar.MONTH, Calendar.JANUARY);
         calendar.getTimeInMillis();
         return calendar;
     }
 
-    public static Calendar truncateYear()
-    {
+    public static Calendar truncateYear() {
         return truncateYear(Calendar.getInstance());
     }
 
@@ -168,16 +165,14 @@ public class DateTool {
         return calendar;
     }
 
-    public static Calendar setWeekFirst(final Calendar calendar)
-    {
+    public static Calendar setWeekFirst(final Calendar calendar) {
         truncateDay(calendar);
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         calendar.getTimeInMillis();
         return calendar;
     }
 
-    public static Calendar setWeekLast(final Calendar calendar)
-    {
+    public static Calendar setWeekLast(final Calendar calendar) {
         truncateDay(calendar);
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         calendar.getTimeInMillis();

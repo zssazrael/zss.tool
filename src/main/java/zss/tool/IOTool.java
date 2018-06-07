@@ -20,11 +20,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2018.05.17")
+@Version("2018.09.18")
 public final class IOTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(IOTool.class);

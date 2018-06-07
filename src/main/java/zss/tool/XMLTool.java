@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,7 +29,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -36,7 +37,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-@Version("2018.05.17")
+@Version("2018.09.18")
 public final class XMLTool {
     private static final Logger LOGGER = LoggerFactory.getLogger(XMLTool.class);
 
@@ -161,7 +162,14 @@ public final class XMLTool {
     }
 
     public static TransformerFactory newTransformerFactory() {
-        return TransformerFactory.newInstance();
+        final TransformerFactory factory = TransformerFactory.newInstance();
+        try {
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        } catch (TransformerConfigurationException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new LoggedException();
+        }
+        return factory;
     }
 
     public static DocumentBuilderFactory newDocumentBuilderFactory() {

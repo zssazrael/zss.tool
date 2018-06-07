@@ -1,76 +1,44 @@
 package zss.tool;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-@Version("2013-12-21")
-public class LazyValue<T>
-{
-    private static final LocalProperties RESOURCE = LocalProperties.getLocalProperties(LazyValue.class);
-    private static final Logger LOGGER = LoggerFactory.getLogger(LazyValue.class);
-
+@Version("2018.07.13")
+public abstract class LazyValue<T> {
     private final Object lock = new Object();
 
-    private boolean initialized = false;
-    private boolean destroyed = false;
-    private T value = null;
+    private T value;
+    private long timeLive;
+    private long timeIdle;
 
-    public final boolean isInitialized()
-    {
-        synchronized (lock)
-        {
-            return initialized;
-        }
-    }
-
-    public final boolean isDestroyed()
-    {
-        synchronized (lock)
-        {
-            return destroyed;
-        }
-    }
-
-    public final T get()
-    {
-        synchronized (lock)
-        {
-            if (destroyed)
-            {
-                String message = RESOURCE.getProperty("get.destroyed", "值 [%s@%s] 已销毁。");
-                message = String.format(message, getClass().getName(), Integer.toHexString(hashCode()));
-                LOGGER.error(message);
-                throw new LoggedException(message);
+    public final T get() {
+        synchronized (lock) {
+            final long currentTime = System.currentTimeMillis();
+            if (value != null) {
+                final long live = timeToLive();
+                if ((live > 0) && ((currentTime - timeLive) > live)) {
+                    destroy(value);
+                    value = null;
+                }
             }
-            if (initialized)
-            {
-                return value;
+            if (value != null) {
+                final long idle = timeToIdle();
+                if ((idle > 0) && ((currentTime - timeIdle) > idle)) {
+                    destroy(value);
+                    value = null;
+                }
             }
-            initialized = true;
-            value = initialize();
+            if (value == null) {
+                value = initialize();
+                timeLive = currentTime;
+            }
+            timeIdle = currentTime;
             return value;
         }
     }
 
-    public final void destroy()
-    {
-        synchronized (lock)
-        {
-            if (initialized && (destroyed == false))
-            {
-                destroyed = true;
-                doDestroy(value);
-            }
-        }
-    }
+    protected abstract T initialize();
 
-    protected T initialize()
-    {
-        return null;
-    }
+    protected abstract void destroy(T value);
 
-    protected void doDestroy(final T value)
-    {
-        this.value = null;
-    }
+    protected abstract long timeToLive();
+
+    protected abstract long timeToIdle();
 }

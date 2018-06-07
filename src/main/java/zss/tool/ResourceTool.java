@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2014-05-28")
+@Version("2018.09.21")
 public class ResourceTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceTool.class);
@@ -55,5 +55,8 @@ public class ResourceTool
             LOGGER.error(e.getMessage(), e);
             throw new LoggedException(ResourceTool.class);
         }
+    }
+
+    private ResourceTool() {
     }
 }

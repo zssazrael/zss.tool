@@ -7,10 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2018.05.17")
+@Version("2018.09.21")
 public class PropertiesWrapper
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesWrapper.class);
@@ -22,22 +23,9 @@ public class PropertiesWrapper
         return "true".equals(properties.getProperty(name));
     }
 
-    public int getInteger(final String name, final int defaultValue)
-    {
+    public int getInteger(final String name, final int defaultValue) {
         String text = properties.getProperty(name);
-        if (text == null)
-        {
-            return defaultValue;
-        }
-        try
-        {
-            return Integer.parseInt(text);
-        }
-        catch (NumberFormatException e)
-        {
-            LOGGER.warn(e.getMessage(), e);
-            return defaultValue;
-        }
+        return NumberUtils.toInt(text, defaultValue);
     }
 
     public int getInteger(final String name)
@@ -68,14 +56,7 @@ public class PropertiesWrapper
                 LOGGER.warn(throwable.getMessage(), throwable);
             }
             return null;
-        }
-        catch (IllegalAccessException e)
-        {
-            LOGGER.warn(e.getMessage(), e);
-            return null;
-        }
-        catch (ClassNotFoundException e)
-        {
+        } catch (IllegalAccessException | ClassNotFoundException e) {
             LOGGER.warn(e.getMessage(), e);
             return null;
         }

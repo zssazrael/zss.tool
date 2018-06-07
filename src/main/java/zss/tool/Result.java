@@ -1,10 +1,10 @@
 package zss.tool;
 
-@Version("2017.09.10")
+@Version("2018.09.21")
 public class Result extends StringObjectMap {
     private static final long serialVersionUID = 20170903112936L;
-    public static final String RESULT = "result";
-    public static final String MESSAGE = "message";
+    public static final String KEY_RESULT = "result";
+    public static final String KEY_MESSAGE = "message";
 
     public Result() {
         setResult(false);
@@ -25,20 +25,20 @@ public class Result extends StringObjectMap {
     }
 
     public String getMessage() {
-        return getString(MESSAGE, "");
+        return getString(KEY_MESSAGE, "");
     }
 
     public Result setMessage(final String message) {
-        setString(MESSAGE, message);
+        setString(KEY_MESSAGE, message);
         return this;
     }
 
     public boolean getResult() {
-        return getBoolean(RESULT, false);
+        return getBoolean(KEY_RESULT, false);
     }
 
     public Result setResult(final boolean result) {
-        setBoolean(RESULT, result);
+        setBoolean(KEY_RESULT, result);
         return this;
     }
 }
