@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2018.09.21")
+@Version("2019.04.11")
 public class HashTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(HashTool.class);
@@ -34,7 +34,7 @@ public class HashTool
         MessageDigest digest = newMD5MessageDigest();
         try
         {
-            byte[] buffer = new byte[IOTool.MB];
+            byte[] buffer = new byte[(int) IOTool.MB];
             int count;
             while ((count = stream.read(buffer)) > -1)
             {

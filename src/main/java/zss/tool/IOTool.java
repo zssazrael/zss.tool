@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
@@ -24,14 +25,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Version("2018.09.18")
+@Version("2019.04.11")
 public final class IOTool
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(IOTool.class);
 
-    public static final int KB = 1024;
-    public static final int MB = KB * 1024;
-    public static final int GB = MB * 1024;
+    public static final long KB = 1024L;
+    public static final long MB = KB * 1024L;
+    public static final long GB = MB * 1024L;
 
     public static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
     public static final Charset CHARSET_UTF_16BE = Charset.forName("UTF-16BE");
@@ -65,7 +66,7 @@ public final class IOTool
     {
         try
         {
-            final byte[] data = new byte[KB * 4];
+            final byte[] data = new byte[(int) (KB * 4)];
             while (true)
             {
                 final int count = input.read(data);
@@ -289,7 +290,7 @@ public final class IOTool
 
     public static byte[] readAllByte(final InputStream input)
     {
-        final ByteArrayOutputStream output = new ByteArrayOutputStream(MB);
+        final ByteArrayOutputStream output = new ByteArrayOutputStream((int) MB);
         copy(input, output);
         return output.toByteArray();
     }
@@ -371,5 +372,17 @@ public final class IOTool
         } finally {
             close(writer);
         }
+    }
+
+    public static Path toRealPath(final Path path) {
+        final Path absolutePath = path.toAbsolutePath();
+        if (Files.exists(absolutePath)) {
+            try {
+                return absolutePath.toRealPath();
+            } catch (IOException e) {
+                return absolutePath;
+            }
+        }
+        return absolutePath;
     }
 }
