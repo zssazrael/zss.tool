@@ -385,4 +385,8 @@ public final class IOTool
         }
         return absolutePath;
     }
+
+    public static Path toRealPath(final String path) {
+        return toRealPath(Paths.get(path));
+    }
 }
