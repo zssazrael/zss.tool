@@ -1,9 +1,24 @@
 package zss.tool;
 
-@Version("2016-02-24")
-public class LoggedException extends RuntimeException
-{
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+
+@Version("2019.10.30")
+public class LoggedException extends RuntimeException {
     private static final long serialVersionUID = 1304476906739L;
+
+    public static LoggedException newLoggedException(Logger logger, Exception exception) {
+        if (exception == null) {
+            return null;
+        }
+        for (Throwable throwable : ExceptionUtils.getThrowableList(exception)) {
+            if (throwable instanceof LoggedException) {
+                return (LoggedException) throwable;
+            }
+        }
+        logger.error(exception.getMessage(), exception);
+        return new LoggedException(exception.getMessage());
+    }
 
     private final String message;
 
