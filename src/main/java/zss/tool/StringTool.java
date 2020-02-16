@@ -1,13 +1,10 @@
 package zss.tool;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.util.LinkedList;
 import java.util.Locale;
 
-@Version("2015-01-07")
-public final class StringTool
-{
+@Version("2020.02.16")
+public final class StringTool {
     public static String toLowerCase(final String text)
     {
         if (text == null)
@@ -36,18 +33,15 @@ public final class StringTool
         return builder.toString();
     }
 
-    public static String newString(final byte[] bs)
-    {
-        final CharBuffer buffer = ByteBuffer.wrap(bs).asCharBuffer();
-        return buffer.toString();
+    public static String newString(final byte[] bs) {
+        return new String(bs, IOTool.CHARSET_UTF_16BE);
     }
 
-    public static byte[] getBytes(final String text)
-    {
-        final byte[] bs = new byte[text.length() * 2];
-        final CharBuffer buffer = ByteBuffer.wrap(bs).asCharBuffer();
-        buffer.append(text);
-        return bs;
+    public static byte[] getBytes(final String text) {
+        if (text == null) {
+            return null;
+        }
+        return text.getBytes(IOTool.CHARSET_UTF_16BE);
     }
 
     public static LinkedList<String> split(final String text, final char separator)
