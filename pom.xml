@@ -65,11 +65,11 @@
     <distributionManagement>
         <repository>
             <id>releases</id>
-            <url>http://zbox.site/nexus/repository/maven-releases/</url>
+            <url>http://zbox.site/archiva/repository/releases/</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
-            <url>http://zbox.site/nexus/repository/maven-snapshots/</url>
+            <url>http://zbox.site/archiva/repository/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <properties>
